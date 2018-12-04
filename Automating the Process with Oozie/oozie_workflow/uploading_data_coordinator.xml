@@ -1,0 +1,17 @@
+<coordinator-app xmlns="uri:oozie:coordinator:0.2" name="uploading_data_coordinator"
+	frequency="0/20 8-18 ? * 2-6" start="2018-04-02T08:00Z" end="2025-03-29T18:00Z" timezone="America/New_York">
+
+	<controls>
+		<timeout>-1</timeout>
+		<concurrency>1</concurrency>
+		<execution>FIFO</execution>
+	</controls>
+
+	<action>
+		<workflow>
+			<app-path>${nameNode}/user/maria_dev/oozie_workflow/uploading_data_workflow.xml </app-path>
+		</workflow>
+	</action>
+
+
+</coordinator-app>

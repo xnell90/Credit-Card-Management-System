@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="uploading_data_workflow">
+	<start to="upload_cdw_sapp_customer"/>
+
+	<action name="upload_cdw_sapp_customer">
+		<sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<prepare>
+				<delete path="${nameNode}/user/maria_dev/Credit_Card_System/CDW_SAPP_CUSTOMER"/>
+			</prepare>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec upload_cdw_sapp_customer</command>
+			<!-- Optional if not using meta store, delete the meta connect flag -->
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+
+		</sqoop>
+
+		<ok to="upload_cdw_sapp_branch"/>
+		<error to="fail"/>
+	</action>
+
+	<action name="upload_cdw_sapp_branch">
+		<sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<prepare>
+				<delete path="${nameNode}/user/maria_dev/Credit_Card_System/CDW_SAPP_BRANCH"/>
+			</prepare>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec upload_cdw_sapp_branch</command>
+			<!-- Optional if not using meta store, delete the meta connect flag -->
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+
+		</sqoop>
+
+		<ok to="upload_cdw_sapp_time"/>
+		<error to="fail"/>
+
+	</action>
+
+	<action name="upload_cdw_sapp_time">
+		<sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<prepare>
+				<delete path="${nameNode}/user/maria_dev/Credit_Card_System/CDW_SAPP_TIME"/>
+			</prepare>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec upload_cdw_sapp_time</command>
+			<!-- Optional if not using meta store, delete the meta connect flag -->
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+
+		</sqoop>
+		<ok to="upload_cdw_sapp_creditcard"/>
+		<error to="fail"/>
+	</action>
+
+	<action name="upload_cdw_sapp_creditcard">
+		<sqoop xmlns="uri:oozie:sqoop-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<prepare>
+				<delete path="${nameNode}/user/maria_dev/Credit_Card_System/CDW_SAPP_CREDITCARD"/>
+			</prepare>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<command>job --meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop --exec upload_cdw_sapp_creditcard</command>
+			<!-- Optional if not using meta store, delete the meta connect flag -->
+			<archive>/user/oozie/share/lib/lib_20161025075203/sqoop/java-json.jar#java-json.jar</archive>
+
+		</sqoop>
+		<ok to="create_external_tables"/>
+		<error to="fail"/>
+	</action>
+
+	<action name="create_external_tables">
+		<hive xmlns="uri:oozie:hive-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<script>create_external_tables.hive</script>
+		</hive>
+
+		<ok to="create_internal_tables_with_partitions"/>
+		<error to="fail"/>
+	</action>
+
+	<action name="create_internal_tables_with_partitions"> 		<!-- this creates internal tables then loads data from external table-->
+		<hive xmlns="uri:oozie:hive-action:0.2">
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+
+			<configuration>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+			</configuration>
+
+			<script>create_internal_tables_with_partitions.hive</script>
+		</hive>
+
+		<ok to="end"/>
+		<error to="fail"/>
+	</action>
+
+	<kill name="fail">
+		<message>
+			Uploading data failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
+		</message>
+	</kill>
+
+	<end name="end"/>
+</workflow-app>

@@ -1,0 +1,130 @@
+sqoop job
+--meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop
+--create optimized_upload_cdw_sapp_customer
+-- import
+--connect jdbc:mysql://localhost/CDW_SAPP
+--driver com.mysql.jdbc.Driver
+--query
+"SELECT
+    SSN CUST_SSN, CONCAT(UPPER(SUBSTRING(FIRST_NAME, 1, 1)), LOWER(SUBSTRING(FIRST_NAME FROM 2))) CUST_F_NAME,
+    LOWER(MIDDLE_NAME) CUST_M_NAME,
+    CONCAT(UPPER(SUBSTRING(LAST_NAME, 1, 1)), LOWER(SUBSTRING(LAST_NAME FROM 2))) CUST_L_NAME,
+    CREDIT_CARD_NO CUST_CC_NO,
+    CONCAT(APT_NO, ', ', STREET_NAME) CUST_STREET,
+    CUST_CITY,
+    CUST_STATE,
+    CUST_COUNTRY,
+    CUST_ZIP,
+    CONCAT(SUBSTRING(CUST_PHONE, 1,3), '-', SUBSTRING(CUST_PHONE FROM 3)) CUST_PHONE,
+    CUST_EMAIL,
+    LAST_UPDATED
+FROM
+    CDW_SAPP_CUSTOMER
+WHERE
+    CHAR_LENGTH(SSN) = 9 AND \$CONDITIONS;"
+--target-dir /user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_CUSTOMER
+--fields-terminated-by '\t'
+--append
+--incremental lastmodified
+--check-column LAST_UPDATED
+--last-value '2018-04-20'
+-m 1
+
+************************************************************************************
+
+sqoop job
+--meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop
+--create optimized_upload_cdw_sapp_branch
+-- import
+--connect jdbc:mysql://localhost/CDW_SAPP
+--driver com.mysql.jdbc.Driver
+--query
+"SELECT
+    BRANCH_CODE,
+    BRANCH_NAME,
+    BRANCH_STREET,
+    BRANCH_CITY,
+    BRANCH_STATE,
+    CASE WHEN BRANCH_ZIP = null THEN 999999 ELSE BRANCH_ZIP END BRANCH_ZIP,
+    CONCAT('(', SUBSTRING(BRANCH_PHONE, 1, 3), ')', SUBSTRING(BRANCH_PHONE, 4, 3), '-', SUBSTRING(BRANCH_PHONE, 7, 5)) BRANCH_PHONE,
+    LAST_UPDATED
+FROM
+   CDW_SAPP_BRANCH
+WHERE
+   \$CONDITIONS;"
+--target-dir /user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_BRANCH
+--fields-terminated-by '\t'
+--append
+--incremental lastmodified
+--check-column LAST_UPDATED
+--last-value '2018-4-17'
+-m 1
+
+************************************************************************************
+
+sqoop job
+--meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop
+--create optimized_upload_cdw_sapp_time
+-- import
+--connect jdbc:mysql://localhost/CDW_SAPP
+--driver com.mysql.jdbc.Driver
+--query
+"SELECT
+    TRANSACTION_ID,
+    CONCAT(
+	YEAR,
+	CASE WHEN MONTH < 10 THEN CONCAT(0, MONTH) ELSE MONTH END,
+	CASE WHEN DAY < 10 THEN CONCAT(0, DAY) ELSE DAY END
+    ) AS TIME_KEY,
+    DAY,
+    MONTH,
+    ( CASE
+	WHEN MONTH >= 1 AND MONTH <= 3 THEN 1
+        WHEN MONTH >= 4 AND MONTH <= 6 THEN 2
+        WHEN MONTH >= 7 AND MONTH <= 9 THEN 3
+       	WHEN MONTH >= 10 AND MONTH <= 12 THEN 4
+      END
+    ) AS QUARTER,
+    YEAR
+FROM
+    CDW_SAPP_CREDITCARD
+WHERE
+    \$CONDITIONS"
+--target-dir /user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_TIME
+--fields-terminated-by '\t'
+--incremental append
+--check-column TRANSACTION_ID
+--last-value 0
+-m 1
+
+************************************************************************************
+
+sqoop job
+--meta-connect jdbc:hsqldb:hsql://localhost:16000/sqoop
+--create optimized_upload_cdw_sapp_creditcard
+-- import
+--connect jdbc:mysql://localhost/CDW_SAPP
+--driver com.mysql.jdbc.Driver
+--query
+"SELECT
+    TRANSACTION_ID,
+    CREDIT_CARD_NO AS CUST_CC_NO,
+    CONCAT(
+	YEAR,
+	CASE WHEN MONTH < 10 THEN CONCAT(0, MONTH) ELSE MONTH END,
+	CASE WHEN DAY < 10 THEN CONCAT(0, DAY) ELSE DAY END
+    ) AS TIMEID,
+    CUST_SSN,
+    BRANCH_CODE,
+    TRANSACTION_TYPE,
+    TRANSACTION_VALUE
+FROM
+    CDW_SAPP_CREDITCARD
+WHERE
+    \$CONDITIONS"
+--target-dir /user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_CREDITCARD
+--fields-terminated-by '\t'
+--incremental append
+--check-column TRANSACTION_ID
+--last-value 0
+-m 1

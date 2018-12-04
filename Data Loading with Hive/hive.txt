@@ -1,0 +1,192 @@
+#The below queries create external tables without partitions.
+
+CREATE EXTERNAL TABLE cdw_sapp_customer (
+  CUST_SSN int,
+  CUST_F_NAME varchar(40),
+  CUST_M_NAME varchar(40),
+  CUST_L_NAME varchar(40),
+  CUST_CC_NO string,
+  CUST_STREET varchar(38),
+  CUST_CITY varchar(30),
+  CUST_STATE varchar(30),
+  CUST_COUNTRY varchar(30),
+  CUST_ZIP int,
+  CUST_PHONE varchar(8),
+  CUST_EMAIL varchar(40),
+  LAST_UPDATED timestamp
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System/CDW_SAPP_CUSTOMER/external_table';
+
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/CDW_SAPP_CUSTOMER/part-m-00000'
+INTO TABLE cdw_sapp_customer;
+
+
+CREATE EXTERNAL TABLE cdw_sapp_branch (
+  BRANCH_CODE int,
+  BRANCH_NAME varchar(25),
+  BRANCH_STREET varchar(30),
+  BRANCH_CITY varchar(30),
+  BRANCH_STATE varchar(30),
+  BRANCH_ZIP int,
+  BRANCH_PHONE varchar(13),
+  LAST_UPDATED timestamp
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System/CDW_SAPP_BRANCH/external_table';
+
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/CDW_SAPP_BRANCH/part-m-00000'
+INTO TABLE cdw_sapp_branch;
+
+
+CREATE EXTERNAL TABLE cdw_sapp_time (
+  TIMEID varchar(8),
+  DAY int,
+  MONTH int,
+  QUARTER varchar(8),
+  YEAR int
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System/CDW_SAPP_TIME/external_table';
+
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/CDW_SAPP_TIME/part-m-00000'
+INTO TABLE cdw_sapp_time;
+
+
+CREATE EXTERNAL TABLE cdw_sapp_creditcard (
+  TRANSACTION_ID int,
+  CUST_CC_NO string,
+  TIMEID varchar(8),
+  CUST_SSN int,
+  BRANCH_CODE int,
+  TRANSACTION_TYPE varchar(30),
+  TRANSACTION_VALUE decimal(20,3)
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System/CDW_SAPP_CREDITCARD/external_table';
+
+LOAD DATA INPATH '/user/maria_dev/Credit_Card_System/CDW_SAPP_CREDITCARD/part-m-00000'
+INTO TABLE cdw_sapp_creditcard;
+
+--------------------------------------------------------------------------------
+
+#The below queries create internal tables with partitions.
+CREATE TABLE cdw_sapp_branch_internal (
+	BRANCH_CODE int,
+  	BRANCH_NAME varchar(25),
+  	BRANCH_STREET varchar(30),
+  	BRANCH_CITY varchar(30),
+  	BRANCH_ZIP int,
+  	BRANCH_PHONE varchar(13),
+  	LAST_UPDATED timestamp
+  )
+PARTITIONED BY (BRANCH_STATE varchar(30));
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+INSERT OVERWRITE TABLE cdw_sapp_branch_internal
+PARTITION (BRANCH_STATE)
+SELECT
+	BRANCH_CODE,
+	BRANCH_NAME,
+	BRANCH_STREET,
+	BRANCH_CITY,
+	BRANCh_ZIP,
+	BRANCH_PHONE,
+	LAST_UPDATED,
+	BRANCH_STATE
+FROM cdw_sapp_branch;
+
+--------------------------------------------------------------------------------
+
+CREATE TABLE cdw_sapp_creditcard_internal (
+	TRANSACTION_ID int,
+  	CUST_CC_NO string,
+  	TIMEID varchar(8),
+  	CUST_SSN int,
+  	BRANCH_CODE int,
+  	TRANSACTION_VALUE decimal(20,3)
+  )
+PARTITIONED BY (TRANSACTION_TYPE varchar(30));
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+INSERT OVERWRITE TABLE cdw_sapp_creditcard_internal
+PARTITION (TRANSACTION_TYPE)
+SELECT
+	TRANSACTION_ID,
+	CUST_CC_NO,
+	TIMEID,
+	CUST_SSN,
+	BRANCH_CODE,
+	TRANSACTION_VALUE,
+	TRANSACTION_TYPE
+FROM cdw_sapp_creditcard;
+
+--------------------------------------------------------------------------------
+
+CREATE TABLE cdw_sapp_time_internal (
+  TIMEID varchar(8),
+  DAY int,
+  MONTH int,
+  QUARTER varchar(8)
+  )
+PARTITIONED BY (YEAR int);
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+INSERT OVERWRITE TABLE cdw_sapp_time_internal
+PARTITION (YEAR)
+SELECT
+	TIMEID,
+	DAY,
+	MONTH,
+	QUARTER,
+	YEAR
+FROM cdw_sapp_time;
+
+--------------------------------------------------------------------------------
+
+CREATE TABLE cdw_sapp_customer_internal (
+  CUST_SSN int,
+  CUST_F_NAME varchar(40),
+  CUST_M_NAME varchar(40),
+  CUST_L_NAME varchar(40),
+  CUST_CC_NO string,
+  CUST_STREET varchar(38),
+  CUST_CITY varchar(30),
+  CUST_COUNTRY varchar(30),
+  CUST_ZIP int,
+  CUST_PHONE varchar(8),
+  CUST_EMAIL varchar(40),
+  LAST_UPDATED timestamp
+  )
+PARTITIONED BY (CUST_STATE varchar(30));
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+INSERT OVERWRITE TABLE cdw_sapp_customer_internal
+PARTITION (CUST_STATE)
+SELECT
+  CUST_SSN,
+  CUST_F_NAME,
+  CUST_M_NAME,
+  CUST_L_NAME,
+  CUST_CC_NO,
+  CUST_STREET,
+  CUST_CITY,
+  CUST_COUNTRY,
+  CUST_ZIP,
+  CUST_PHONE,
+  CUST_EMAIL,
+  LAST_UPDATED,
+  CUST_STATE
+FROM cdw_sapp_customer;

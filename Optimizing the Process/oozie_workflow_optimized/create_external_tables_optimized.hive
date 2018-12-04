@@ -1,0 +1,57 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS cdw_sapp_customer_optimized (
+  CUST_SSN int,
+  CUST_F_NAME varchar(40),
+  CUST_M_NAME varchar(40),
+  CUST_L_NAME varchar(40),
+  CUST_CC_NO string,
+  CUST_STREET varchar(38),
+  CUST_CITY varchar(30),
+  CUST_STATE varchar(30),
+  CUST_COUNTRY varchar(30),
+  CUST_ZIP int,
+  CUST_PHONE varchar(8),
+  CUST_EMAIL varchar(40),
+  LAST_UPDATED timestamp
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_CUSTOMER';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS cdw_sapp_branch_optimized (
+  BRANCH_CODE int,
+  BRANCH_NAME varchar(25),
+  BRANCH_STREET varchar(30),
+  BRANCH_CITY varchar(30),
+  BRANCH_STATE varchar(30),
+  BRANCH_ZIP int,
+  BRANCH_PHONE varchar(13),
+  LAST_UPDATED timestamp
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_BRANCH';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS cdw_sapp_time_optimized (
+  TRANSACTION_ID int,
+  TIMEID varchar(8),
+  DAY int,
+  MONTH int,
+  QUARTER varchar(8),
+  YEAR int
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_TIME';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS cdw_sapp_creditcard_optimized (
+  TRANSACTION_ID int,
+  CUST_CC_NO string,
+  TIMEID varchar(8),
+  CUST_SSN int,
+  BRANCH_CODE int,
+  TRANSACTION_TYPE varchar(30),
+  TRANSACTION_VALUE decimal(20,3)
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+LOCATION '/user/maria_dev/Credit_Card_System_optimized/CDW_SAPP_CREDITCARD';

@@ -1,0 +1,33 @@
+SELECT
+   CAST(cdw_sapp_branch_internal.branch_zip AS STRING) Branch_Zip,
+   SUM(cdw_sapp_creditcard_internal.transaction_value) Total_Transaction_Value
+FROM
+   cdw_sapp_creditcard_internal
+LEFT JOIN
+   cdw_sapp_branch_internal ON
+   cdw_sapp_branch_internal.branch_code = cdw_sapp_creditcard_internal.branch_code
+GROUP BY
+   Branch_Zip
+ORDER BY
+   Total_Transaction_Value DESC
+LIMIT
+   20;
+
+--------------------------------------------------------------------------------
+
+SELECT
+   transaction_type,
+   SUM(transaction_value) Total_Transaction_Value,
+   quarter
+FROM
+   cdw_sapp_creditcard_internal
+LEFT JOIN
+   cdw_sapp_time_internal ON
+   cdw_sapp_time_internal.timeid = cdw_sapp_creditcard_internal.timeid
+WHERE
+   year = 2018
+GROUP BY
+   transaction_type,
+   quarter
+ORDER BY
+   quarter;
