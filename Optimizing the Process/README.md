@@ -3,13 +3,13 @@
 1)
     a) __(Creating sqoop jobs with metastore)__ Open two terminals (IP:4200). On one terminal type sqoop-metastore and let it run. On the other terminal copy each sqoop command from the sqoop_jobs(meta-store)(optimized).txt file and run them [This step is important since all the code uses sqoop jobs in metastore].
 
-    b) __(Creating sqoop jobs without metastore)__ Open one terminal (IP:4200) and ach sqoop command from the sqoop_jobs(optimized).txt file and run them.
+    b) __(Creating sqoop jobs without metastore)__ Open one terminal (IP:4200) and run each sqoop command from the sqoop_jobs(optimized).txt file and run them.
 
 ___Remark___: Each sqoop command is seperated by an astericks line (\*\*\*...\*\*\*) for both files.
 Also, both files are in the sqoop_jobs(optimized) folder
 
 2) Upload the java-json.jar file to the hadoop file system. *(/user/oozie/share/lib/lib_20161025075203/sqoop/)*.
-3) Create the Credit_Card_System_optimized folder in the hadoop file system (*/user/maria_dev/*) that contains four folders: CDW_SAPP_CUSTOMER, CDW_SAPP_BRANCH,CDW_SAPP_TIME, and CDW_SAPP_CREDITCARD.
+3) Create the Credit_Card_System_optimized folder in the hadoop file system (*/user/maria_dev/*) that contains four folders: CDW_SAPP_CUSTOMER, CDW_SAPP_BRANCH, CDW_SAPP_TIME, and CDW_SAPP_CREDITCARD.
 
 ### Instructions on How to run Oozie Workflow with coordinator(optimized version) ###
 
