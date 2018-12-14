@@ -42,6 +42,6 @@ To use the Credit_Card_Management_System:
 2) Unzip the CDW_SAPP(updated).sql.zip folder and open it using MySQL Workbench under the root user. Run the file so that you will have the CDW_SAPP database.
 3) Open the Credit_Card_Management_System via Eclipse, then run the code.
 
-__Note__: Make sure eclipse references the mysql driver file as it is connect to the mysql database. Moreover, when running the java code, the program will ask for a user name and password when accessing the transaction module or the customer module. In that case, the user name is root and the password is whatever password you used for root user. If it doesn't, then you can change the type of password for root user to mysql native password.
+__Note__: Make sure eclipse references the mysql driver file as it is connect to the mysql database. Moreover, when running the java code, the program will ask for a user name and password when accessing the transaction module or the customer module. In that case, the user name is root and the password is whatever password you used for root user. If it doesn't, then you can change the type of password for root user to mysql native password (See Change_Authentication.sql in the Credit_Card_Management_System folder).
 
 ___For other projects, feel free to take a look at my personal Github https://github.com/xnell90___
