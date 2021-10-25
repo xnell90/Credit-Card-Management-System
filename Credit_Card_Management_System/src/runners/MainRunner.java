@@ -222,10 +222,10 @@ public class MainRunner {
 						System.out.println("----------------------------------------------------------");
 						System.out.println("Select Field Name ");
 						System.out.println("----------------------------------------------------------");
-						System.out.format("%-20s	%-20s	%-20s \n",	"1)First Name", 		"2)Middle Name", 		"3)Last Name");
-						System.out.format("%-20s	%-20s	%-20s \n", 	"4)Appartment Number", 	"5)Street Name", 		"6)Customer City"); 
-						System.out.format("%-20s	%-20s	%-20s \n",	"7)Customer State", 	"8)Customer Country", 	"9)Customer Zip");
-						System.out.format("%-20s 	%-20s \n",			"10)Customer Phone", 	"11)Customer Email"); 
+						System.out.format("%-20s	%-20s	%-20s \n", "1)First Name", "2)Middle Name", "3)Last Name");
+						System.out.format("%-20s	%-20s	%-20s \n", "4)Appartment Number", "5)Street Name", "6)Customer City"); 
+						System.out.format("%-20s	%-20s	%-20s \n", "7)Customer State", "8)Customer Country", "9)Customer Zip");
+						System.out.format("%-20s 	%-20s \n", "10)Customer Phone", "11)Customer Email"); 
 						System.out.println("----------------------------------------------------------");
 						System.out.print("Selection Number: ");
 						String selection = input.next();
