@@ -36,20 +36,7 @@ public class Customer {
 		this.LastUpdated = "";
 	}
 	
-	public Customer(String FirstName, 
-			 		String MiddleName,
-			 		String LastName,
-			 		int SSN,
-			 		String CreditCardNumber,
-			 		String AptNum,
-			 		String StreetName,
-			 		String CustomerCity,
-			 		String CustomerState,
-			 		String CustomerCountry,
-			 		String CustomerZip,
-			 		int CustomerPhone,
-			 		String CustomerEmail,
-			 		String LastUpdated) {
+	public Customer(String FirstName, String MiddleName, String LastName, int SSN, String CreditCardNumber, String AptNum, String StreetName, String CustomerCity, String CustomerState, String CustomerCountry, String CustomerZip, int CustomerPhone, String CustomerEmail, String LastUpdated) {
 		this.FirstName = FirstName;
 		this.MiddleName = MiddleName;
 		this.LastName = LastName;
