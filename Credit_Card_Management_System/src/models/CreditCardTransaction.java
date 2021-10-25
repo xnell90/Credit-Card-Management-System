@@ -23,15 +23,7 @@ public class CreditCardTransaction {
 		this.TransactionValue = 0.0;
 	}
 	
-	public CreditCardTransaction(int transactionID,
-					  			 int day,
-					  			 int month,
-					  			 int year,
-					  			 String CreditCardNumber,
-					  			 int CustomerSSN,
-					  			 int BranchCode,
-					  			 String TransactionType,
-					  			 double TransactionValue) {
+	public CreditCardTransaction(int transactionID, int day, int month, int year, String CreditCardNumber, int CustomerSSN, int BranchCode, String TransactionType, double TransactionValue) {
 		this.transactionID = transactionID;
 		this.day = day;
 		this.month = month;
