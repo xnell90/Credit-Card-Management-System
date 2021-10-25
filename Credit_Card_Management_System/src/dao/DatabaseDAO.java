@@ -14,16 +14,10 @@ public abstract class DatabaseDAO {
 	protected ResultSet resultSet = null;
 	protected PreparedStatement prepareStatement = null;
 	
-	public void getConnection(String username, String password) throws InstantiationException, 
-																	   IllegalAccessException, 
-																	   ClassNotFoundException, 
-																	   SQLException {
+	public void getConnection(String username, String password) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cdw_sapp?"
-														+ "autoReconnect=false&useSSL=false", 
-													 	  username, 
-													 	  password);
+			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cdw_sapp?"+ "autoReconnect=false&useSSL=false", username, password);
 			this.statement = this.connection.createStatement();
 
 		} catch (SQLException e) {
