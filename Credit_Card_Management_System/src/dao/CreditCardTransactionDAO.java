@@ -11,10 +11,7 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 
 	private LinkedList<CreditCardTransaction> transactions;
 	
-	public CreditCardTransactionDAO(String username, String password) throws InstantiationException, 
-																			 IllegalAccessException, 
-																			 ClassNotFoundException, 
-																			 SQLException {
+	public CreditCardTransactionDAO(String username, String password) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		try {
 			getConnection(username, password);
 		} catch (SQLException e) {
@@ -45,15 +42,15 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 			while (this.resultSet.next()) {
 				CreditCardTransaction transaction = new CreditCardTransaction();
 				
-				transaction.setTransactionID	(this.resultSet.getInt("TRANSACTION_ID"));
-				transaction.setDay				(this.resultSet.getInt("DAY"));
-				transaction.setMonth			(this.resultSet.getInt("MONTH"));
-				transaction.setYear				(this.resultSet.getInt("YEAR"));
-				transaction.setCreditCardNumber	(this.resultSet.getString("CREDIT_CARD_NO"));
-				transaction.setCustomerSSN		(this.resultSet.getInt("CUST_SSN"));
-				transaction.setBranchCode		(this.resultSet.getInt("BRANCH_CODE"));
-				transaction.setTransactionType	(this.resultSet.getString("TRANSACTION_TYPE"));
-				transaction.setTranscationValue	(this.resultSet.getDouble("TRANSACTION_VALUE"));
+				transaction.setTransactionID(this.resultSet.getInt("TRANSACTION_ID"));
+				transaction.setDay(this.resultSet.getInt("DAY"));
+				transaction.setMonth(this.resultSet.getInt("MONTH"));
+				transaction.setYear(this.resultSet.getInt("YEAR"));
+				transaction.setCreditCardNumber(this.resultSet.getString("CREDIT_CARD_NO"));
+				transaction.setCustomerSSN(this.resultSet.getInt("CUST_SSN"));
+				transaction.setBranchCode(this.resultSet.getInt("BRANCH_CODE"));
+				transaction.setTransactionType(this.resultSet.getString("TRANSACTION_TYPE"));
+				transaction.setTranscationValue(this.resultSet.getDouble("TRANSACTION_VALUE"));
 				
 				this.transactions.push(transaction);
 			}
@@ -77,12 +74,12 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 		
 		for(CreditCardTransaction transaction: this.transactions) {	
 			counter += 1;
-			int transactionID 	= transaction.getTransactionID();
-			int day 			= transaction.getDay();
-			int month 			= transaction.getMonth();
-			int year 			= transaction.getYear();
-			int ssn 			= transaction.getCustomerSSN();
-			int branchCode 		= transaction.getBranchCode();
+			int transactionID = transaction.getTransactionID();
+			int day = transaction.getDay();
+			int month = transaction.getMonth();
+			int year = transaction.getYear();
+			int ssn = transaction.getCustomerSSN();
+			int branchCode = transaction.getBranchCode();
 			
 			String creditCardNumber = transaction.getCreditCardNumber();
 			String transactionType = transaction.getTransactionType();
@@ -137,8 +134,7 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 	@Override
 	public void numberAndTotalValueOfTransactionType(String transactionType) {
 		try {
-			this.prepareStatement = this.connection.prepareStatement
-									(Queries.allTransactionsOfType);
+			this.prepareStatement = this.connection.prepareStatement(Queries.allTransactionsOfType);
 			this.prepareStatement.setString(1, transactionType);
 			this.resultSet = this.prepareStatement.executeQuery();
 			
@@ -157,8 +153,7 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 		System.out.println("----------------------------------------------------------");
 		
 		try {
-			this.prepareStatement = this.connection.prepareStatement
-									(Queries.numberAndTotalValueOfTransactionType);
+			this.prepareStatement = this.connection.prepareStatement(Queries.numberAndTotalValueOfTransactionType);
 			this.prepareStatement.setString(1, transactionType);
 			this.resultSet = this.prepareStatement.executeQuery();
 			
@@ -183,8 +178,7 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 		//Get all transactions from a given state
 		
 		try {
-			this.prepareStatement = this.connection.prepareStatement
-									(Queries.allTransactionsFromState);
+			this.prepareStatement = this.connection.prepareStatement(Queries.allTransactionsFromState);
 			this.prepareStatement.setString(1, state);
 			this.resultSet = this.prepareStatement.executeQuery();
 		
@@ -203,16 +197,15 @@ public class CreditCardTransactionDAO extends DatabaseDAO implements CreditCardT
 		System.out.format("%-11s | %-22s | %-11s \n", "Branch Code", "Number of Transactions", "Total Value");
 		System.out.println("----------------------------------------------------------");
 		try {
-			this.prepareStatement = this.connection.prepareStatement
-									(Queries.numberAndTotalValueOfBranchTransactions);
+			this.prepareStatement = this.connection.prepareStatement(Queries.numberAndTotalValueOfBranchTransactions);
 			this.prepareStatement.setString(1, state);
 			this.resultSet = this.prepareStatement.executeQuery();
 			
 			while (this.resultSet.next()) {
 				
-				int branchCode 		= this.resultSet.getInt("Branch Code");
+				int branchCode 	= this.resultSet.getInt("Branch Code");
 				int numTransactions = this.resultSet.getInt("Number of Transactions");
-				double totalValue 	= this.resultSet.getDouble("Total Value");
+				double totalValue = this.resultSet.getDouble("Total Value");
 				
 				System.out.format("%-11d | %-22d | %-20.3f \n", branchCode, numTransactions, totalValue);
 			}
