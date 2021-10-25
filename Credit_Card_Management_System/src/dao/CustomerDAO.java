@@ -16,10 +16,7 @@ public class CustomerDAO extends DatabaseDAO implements CustomerINTERFACE{
 	
 	private Customer customer;
 	
-	public CustomerDAO(String username, String password) throws InstantiationException, 
-																IllegalAccessException, 
-																ClassNotFoundException, 
-																SQLException {
+	public CustomerDAO(String username, String password) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
 		try {
 			getConnection(username, password);
@@ -46,20 +43,20 @@ public class CustomerDAO extends DatabaseDAO implements CustomerINTERFACE{
 			if (SSN == this.customer.getSSN()) {
 				System.out.println("Customer Information with SSN: " + SSN);
 				System.out.println("-------------------------------------------------");
-				System.out.format("%-20s	%-40s \n", "First Name:"		, this.customer.getFirstName());
-				System.out.format("%-20s	%-40s \n", "Middle Name:"		, this.customer.getMiddleName());
-				System.out.format("%-20s	%-40s \n", "Last Name:"			, this.customer.getLastName());
-				System.out.format("%-20s	%-40d \n", "SSN:"				, this.customer.getSSN());
-				System.out.format("%-20s	%-40s \n", "Credit Card Number" , this.customer.getCreditCardNumber());
-				System.out.format("%-20s	%-40s \n", "Appartment Number:"	, this.customer.getAptNum());
-				System.out.format("%-20s	%-40s \n", "Street Name:"		, this.customer.getStreetName());
-				System.out.format("%-20s	%-40s \n", "Customer City:"		, this.customer.getCustomerCity());
-				System.out.format("%-20s	%-40s \n", "Customer State:"	, this.customer.getCustomerState());
-				System.out.format("%-20s	%-40s \n", "Customer Country:"	, this.customer.getCustomerCountry());
-				System.out.format("%-20s	%-40s \n", "Customer Zip:"		, this.customer.getCustomerZip());
-				System.out.format("%-20s	%-40d \n", "Customer Phone:"	, this.customer.getCustomerPhone());
-				System.out.format("%-20s	%-40s \n", "Customer Email:"	, this.customer.getCustomerEmail());
-				System.out.format("%-20s	%-40s \n", "Last Updated:"		, this.customer.getLastUpdated());
+				System.out.format("%-20s	%-40s \n", "First Name:", this.customer.getFirstName());
+				System.out.format("%-20s	%-40s \n", "Middle Name:", this.customer.getMiddleName());
+				System.out.format("%-20s	%-40s \n", "Last Name:"	, this.customer.getLastName());
+				System.out.format("%-20s	%-40d \n", "SSN:", this.customer.getSSN());
+				System.out.format("%-20s	%-40s \n", "Credit Card Number", this.customer.getCreditCardNumber());
+				System.out.format("%-20s	%-40s \n", "Appartment Number:", this.customer.getAptNum());
+				System.out.format("%-20s	%-40s \n", "Street Name:", this.customer.getStreetName());
+				System.out.format("%-20s	%-40s \n", "Customer City:", this.customer.getCustomerCity());
+				System.out.format("%-20s	%-40s \n", "Customer State:", this.customer.getCustomerState());
+				System.out.format("%-20s	%-40s \n", "Customer Country:", this.customer.getCustomerCountry());
+				System.out.format("%-20s	%-40s \n", "Customer Zip:", this.customer.getCustomerZip());
+				System.out.format("%-20s	%-40d \n", "Customer Phone:", this.customer.getCustomerPhone());
+				System.out.format("%-20s	%-40s \n", "Customer Email:", this.customer.getCustomerEmail());
+				System.out.format("%-20s	%-40s \n", "Last Updated:", this.customer.getLastUpdated());
 				System.out.println("-------------------------------------------------");
 			} else {
 				this.prepareStatement = this.connection.prepareStatement(Queries.displayCustomerSSN);
@@ -69,35 +66,35 @@ public class CustomerDAO extends DatabaseDAO implements CustomerINTERFACE{
 				System.out.println("Customer Information with SSN: " + SSN);
 				System.out.println("-------------------------------------------------");
 				while (resultSet.next()) {
-					System.out.format("%-20s	%-40s \n", "First Name:"		, resultSet.getString("FIRST_NAME"));
-					System.out.format("%-20s	%-40s \n", "Middle Name:"		, resultSet.getString("MIDDLE_NAME"));
-					System.out.format("%-20s	%-40s \n", "Last Name:"			, resultSet.getString("LAST_NAME"));
-					System.out.format("%-20s	%-40d \n", "SSN:"				, resultSet.getInt("SSN"));
-					System.out.format("%-20s	%-40s \n", "Credit Card Number" , resultSet.getString("CREDIT_CARD_NO"));	
-					System.out.format("%-20s	%-40s \n", "Appartment Number:"	, resultSet.getString("APT_NO"));
-					System.out.format("%-20s	%-40s \n", "Street Name:"		, resultSet.getString("STREET_NAME"));
-					System.out.format("%-20s	%-40s \n", "Customer City:"		, resultSet.getString("CUST_CITY"));
-					System.out.format("%-20s	%-40s \n", "Customer State:"	, resultSet.getString("CUST_STATE"));
-					System.out.format("%-20s	%-40s \n", "Customer Country:"	, resultSet.getString("CUST_COUNTRY"));
-					System.out.format("%-20s	%-40s \n", "Customer Zip:"		, resultSet.getString("CUST_ZIP"));
-					System.out.format("%-20s	%-40s \n", "Customer Phone:"	, resultSet.getInt("CUST_PHONE"));
-					System.out.format("%-20s	%-40s \n", "Customer Email:"	, resultSet.getString("CUST_EMAIL"));
-					System.out.format("%-20s	%-40s \n", "Last Updated:"		, resultSet.getString("LAST_UPDATED"));
+					System.out.format("%-20s	%-40s \n", "First Name:", resultSet.getString("FIRST_NAME"));
+					System.out.format("%-20s	%-40s \n", "Middle Name:", resultSet.getString("MIDDLE_NAME"));
+					System.out.format("%-20s	%-40s \n", "Last Name:"	, resultSet.getString("LAST_NAME"));
+					System.out.format("%-20s	%-40d \n", "SSN:", resultSet.getInt("SSN"));
+					System.out.format("%-20s	%-40s \n", "Credit Card Number", resultSet.getString("CREDIT_CARD_NO"));	
+					System.out.format("%-20s	%-40s \n", "Appartment Number:", resultSet.getString("APT_NO"));
+					System.out.format("%-20s	%-40s \n", "Street Name:", resultSet.getString("STREET_NAME"));
+					System.out.format("%-20s	%-40s \n", "Customer City:", resultSet.getString("CUST_CITY"));
+					System.out.format("%-20s	%-40s \n", "Customer State:", resultSet.getString("CUST_STATE"));
+					System.out.format("%-20s	%-40s \n", "Customer Country:", resultSet.getString("CUST_COUNTRY"));
+					System.out.format("%-20s	%-40s \n", "Customer Zip:", resultSet.getString("CUST_ZIP"));
+					System.out.format("%-20s	%-40s \n", "Customer Phone:", resultSet.getInt("CUST_PHONE"));
+					System.out.format("%-20s	%-40s \n", "Customer Email:", resultSet.getString("CUST_EMAIL"));
+					System.out.format("%-20s	%-40s \n", "Last Updated:", resultSet.getString("LAST_UPDATED"));
 					
-					this.customer.setFirstName			(resultSet.getString("FIRST_NAME"));
-					this.customer.setMiddleName			(resultSet.getString("MIDDLE_NAME"));
-					this.customer.setLastName			(resultSet.getString("LAST_NAME"));
-					this.customer.setSSN				(resultSet.getInt("SSN"));
-					this.customer.setCreditCardNumber	(resultSet.getString("CREDIT_CARD_NO"));
-					this.customer.setAptNum				(resultSet.getString("APT_NO"));
-					this.customer.setStreetName			(resultSet.getString("STREET_NAME"));
-					this.customer.setCustomerCity		(resultSet.getString("CUST_CITY"));
-					this.customer.setCustomerState		(resultSet.getString("CUST_STATE"));
-					this.customer.setCustomerCountry	(resultSet.getString("CUST_COUNTRY"));
-					this.customer.setCustomerZip		(resultSet.getString("CUST_ZIP"));
-					this.customer.setCustomerPhone		(resultSet.getInt("CUST_PHONE"));
-					this.customer.setCustomerEmail		(resultSet.getString("CUST_EMAIL"));
-					this.customer.setLastUpdated		(resultSet.getString("LAST_UPDATED"));
+					this.customer.setFirstName(resultSet.getString("FIRST_NAME"));
+					this.customer.setMiddleName(resultSet.getString("MIDDLE_NAME"));
+					this.customer.setLastName(resultSet.getString("LAST_NAME"));
+					this.customer.setSSN(resultSet.getInt("SSN"));
+					this.customer.setCreditCardNumber(resultSet.getString("CREDIT_CARD_NO"));
+					this.customer.setAptNum	(resultSet.getString("APT_NO"));
+					this.customer.setStreetName(resultSet.getString("STREET_NAME"));
+					this.customer.setCustomerCity(resultSet.getString("CUST_CITY"));
+					this.customer.setCustomerState(resultSet.getString("CUST_STATE"));
+					this.customer.setCustomerCountry(resultSet.getString("CUST_COUNTRY"));
+					this.customer.setCustomerZip(resultSet.getString("CUST_ZIP"));
+					this.customer.setCustomerPhone(resultSet.getInt("CUST_PHONE"));
+					this.customer.setCustomerEmail(resultSet.getString("CUST_EMAIL"));
+					this.customer.setLastUpdated(resultSet.getString("LAST_UPDATED"));
 					
 				}
 				System.out.println("-------------------------------------------------");
@@ -164,8 +161,7 @@ public class CustomerDAO extends DatabaseDAO implements CustomerINTERFACE{
 			System.out.format("%-20s	%-40s \n", "Transaction Type", "Transaction Value");
 			System.out.println("-------------------------------------------------");
 			while (resultSet.next()) {
-				System.out.format("%-20s	%-20.2f \n", resultSet.getString("TRANSACTION_TYPE")
-													   , resultSet.getDouble("TRANSACTION_VALUE"));
+				System.out.format("%-20s	%-20.2f \n", resultSet.getString("TRANSACTION_TYPE"), resultSet.getDouble("TRANSACTION_VALUE"));
 				totalBill += resultSet.getDouble("TRANSACTION_VALUE");
 			}
 			System.out.println("-------------------------------------------------");
@@ -180,8 +176,7 @@ public class CustomerDAO extends DatabaseDAO implements CustomerINTERFACE{
 	}
 
 	@Override
-	public void transactionsBetweenTwoDates(int ssn, int day1, int month1, int year1, 
-													 int day2, int month2, int year2) {
+	public void transactionsBetweenTwoDates(int ssn, int day1, int month1, int year1, int day2, int month2, int year2) {
 		try {
 			this.prepareStatement = this.connection.prepareStatement(Queries.transactionsBetweenTwoDates);
 			this.prepareStatement.setInt(1, ssn);
